@@ -14,20 +14,25 @@ import javax.swing.JProgressBar;
 
 public class ThreadExample extends JFrame {
 	
-	private static JProgressBar progressBar;
+	private JProgressBar progressBar;
 	private JButton button;
 	private JPanel panel;
 	private final String START = "Start";
 	private final String PAUSE = "Pause";
-	protected static boolean isStarted = false;
+	private boolean isStarted = false;
+	private Thread worker;
 	
 	public ThreadExample() {
 		super("Thread test");
-	    setBounds(100, 100, 300, 70);
+		buildUI();
+		worker = new Thread(getWorker());
+		
+		worker.start();
+	}
+
+	private void buildUI(){
+		setBounds(100, 100, 300, 70);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    panel = new JPanel();
-	    panel.setLayout(new FlowLayout());
 	    
 	    button = new JButton();
 	    button.setText(START);
@@ -38,34 +43,17 @@ public class ThreadExample extends JFrame {
 	    progressBar.setMaximum(100);
 	    progressBar.setValue(0);
 	    
+	    panel = new JPanel();
+	    panel.setLayout(new FlowLayout());
 	    panel.add(progressBar);
 	    panel.add(button);
 	    
 	    add(panel);
 	    initListeners();
 	}
-
-	private void initListeners() {
-		button.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateBtnLabel();
-				isStarted = !isStarted;
-			}
-		});
-	}
 	
-	private void updateBtnLabel() {
-		String newLabel = START.equals(button.getText()) ? PAUSE : START;
-		button.setText(newLabel);
-	}
-	
-	public static void main(String[] args) {
-		ThreadExample myApp = new ThreadExample();
-		myApp.setVisible(true);
-		
-		Thread countThread = new Thread(new Runnable() {
+	private Runnable getWorker() {
+		return new Runnable() {
 			@Override
 			public void run() {
 				for (int value = 0; value <= 100; ) {
@@ -83,14 +71,32 @@ public class ThreadExample extends JFrame {
 						
 					} else { //if on pause
 						try {
-							Thread.sleep(350);
+							Thread.sleep(400);
 						} catch (InterruptedException e) {}
 					}
 				}
 			}
+		};
+	}
+	
+	private void initListeners() {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateBtnLabel();
+				isStarted = !isStarted;
+			}
 		});
-		
-		countThread.start();
+	}
+	
+	private void updateBtnLabel() {
+		String newLabel = START.equals(button.getText()) ? PAUSE : START;
+		button.setText(newLabel);
+	}
+	
+	public static void main(String[] args) {
+		ThreadExample myApp = new ThreadExample();
+		myApp.setVisible(true);
 	}
 
 }
