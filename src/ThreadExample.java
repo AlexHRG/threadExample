@@ -35,7 +35,7 @@ public class ThreadExample extends JFrame {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    button = new JButton();
-	    button.setText(START);
+	    updateBtnLabel();
 	    
 	    progressBar = new JProgressBar();
 	    progressBar.setStringPainted(true);
@@ -83,14 +83,14 @@ public class ThreadExample extends JFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateBtnLabel();
 				isStarted = !isStarted;
+				updateBtnLabel();
 			}
 		});
 	}
 	
 	private void updateBtnLabel() {
-		String newLabel = START.equals(button.getText()) ? PAUSE : START;
+		String newLabel = isStarted ? PAUSE : START;
 		button.setText(newLabel);
 	}
 	
