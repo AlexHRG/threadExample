@@ -64,7 +64,7 @@ public class ThreadExample extends JFrame {
 						} catch (InterruptedException e) {}
 						
 						if (value == 100) {
-							value=0;
+							value = 0;
 						} else {
 							value += 1;
 						}
@@ -90,8 +90,7 @@ public class ThreadExample extends JFrame {
 	}
 	
 	private void updateBtnLabel() {
-		String newLabel = isStarted ? PAUSE : START;
-		button.setText(newLabel);
+		button.setText(isStarted ? PAUSE : START);
 	}
 	
 	public static void main(String[] args) {
