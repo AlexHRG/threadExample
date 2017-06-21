@@ -23,7 +23,7 @@ public class ThreadExample extends JFrame {
 	private Thread worker;
 	
 	public ThreadExample() {
-		super("Thread test");
+		super("Thread example");
 		buildUI();
 		worker = new Thread(getWorker());
 		
